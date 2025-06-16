@@ -1,50 +1,88 @@
-# Welcome to your Expo app 👋
+# 같이해조 (Teamble) 🎓
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+조별과제나 팀플 경험이 부족한 대학생들도 부담 없이 협업을 시작할 수 있도록 돕는, 효율적인 팀 프로젝트 관리를 위한 모바일 기반 협업 앱입니다
 
-## Get started
+## 핵심 기능
 
-1. Install dependencies
+- [ ] **팀 생성 / 참여 기능**  
+       팀 코드 기반으로 참여하고, 역할 자동 분배 기능 제공 예정
 
-   ```bash
-   npm install
-   ```
+- [ ] **팀별 채팅 기능**  
+       앱 내 채팅 + 읽음 여부 표시
 
-2. Start the app
+- [ ] **할 일 / 일정 관리**  
+       역할 기반 할 일 등록, 일정/마감일 관리, 삭제 가능
 
-   ```bash
-   npx expo start
-   ```
+- [ ] **알림 기능**  
+       중요 일정, 메시지 미확인 여부에 대한 알림 제공
 
-In the output, you'll find options to open the app in a
+## 기술 스택
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- React Native (Expo)
+- TypeScript
+- React Navigation
+- Axios
+- React Query
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 시작하기
 
-## Get a fresh project
+### 필수 조건
 
-When you're ready, run:
+- Node.js (v18 이상)
+- npm 또는 yarn
+- Expo CLI
+
+### 설치
 
 ```bash
-npm run reset-project
+# 저장소 클론
+git clone [repository-url]
+
+# 의존성 설치
+npm install
+
+# 개발 서버 실행
+npm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 환경 변수 설정
 
-## Learn more
+프로젝트 루트 디렉터리에 .env 파일을 생성한 후, 아래 변수들을 설정하시기 바랍니다.
 
-To learn more about developing your project with Expo, look at the following resources:
+```env
+EXPO_PUBLIC_API_URL=http://localhost:8080
+EXPO_PUBLIC_ENV=development
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 프로젝트 구조
 
-## Join the community
+```
+src/
+├── api/              # API 관련 설정 및 서비스
+├── components/       # 공통 컴포넌트
+├── constants/        # 상수 정의
+├── screens/         # 화면(페이지) 컴포넌트
+├── types/           # TypeScript 타입 정의
+└── utils/           # 유틸리티 함수
+```
 
-Join our community of developers creating universal apps.
+## 브랜치 전략
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- `main`: 프로덕션 브랜치
+- `develop`: 개발 브랜치
+- `feature/*`: 기능 개발 브랜치
+- `bug/*`: 버그 수정 브랜치
+
+## 커밋 컨벤션
+
+- `feat`: 새로운 기능
+- `fix`: 버그 수정
+- `docs`: 문서 수정
+- `style`: 코드 포맷팅
+- `refactor`: 코드 리팩토링
+- `test`: 테스트 코드
+- `chore`: 빌드 프로세스 또는 보조 도구 변경
+
+## 라이선스
+
+MIT
