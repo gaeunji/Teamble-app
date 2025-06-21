@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { Image } from "react-native";
 import { CalendarScreen } from "../screens/Calendar/CalendarScreen";
@@ -8,11 +9,25 @@ import { RoomListScreen } from "../screens/Room/RoomListScreen";
 import { SettingsScreen } from "../screens/Settings/SettingsScreen";
 
 const Tab = createBottomTabNavigator();
+const RoomStack = createStackNavigator();
+
+function RoomStackScreen() {
+  return (
+    <RoomStack.Navigator initialRouteName="RoomList" {...({} as any)}>
+      <RoomStack.Screen
+        name="RoomList"
+        component={RoomListScreen}
+        options={{ headerShown: false }}
+      />
+    </RoomStack.Navigator>
+  );
+}
 
 export const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        {...({} as any)}
         screenOptions={{
           lazy: true,
           tabBarActiveTintColor: "#007AFF",
@@ -45,7 +60,7 @@ export const AppNavigator = () => {
         />
         <Tab.Screen
           name="Room"
-          component={RoomListScreen}
+          component={RoomStackScreen}
           options={{
             tabBarIcon: ({ color }) => (
               <Image
