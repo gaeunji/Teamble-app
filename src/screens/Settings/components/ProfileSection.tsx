@@ -1,64 +1,77 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 export const ProfileSection = () => {
   return (
     <View style={styles.container}>
-      <View style={styles.profile}>
+      <View style={styles.avatarContainer}>
         <Image
-          source={{ uri: "https://via.placeholder.com/100" }}
+          source={require("../../../../assets/icons/profile.png")}
           style={styles.avatar}
+          resizeMode="contain"
         />
-        <View style={styles.info}>
-          <Text style={styles.name}>사용자 이름</Text>
-          <Text style={styles.email}>user@example.com</Text>
+      </View>
+      <View style={styles.infoContainer}>
+        <Text style={styles.universityText}>경희대학교</Text>
+        <Text style={styles.collegeText}>전자정보대학</Text>
+        <View style={styles.nameContainer}>
+          <Text style={styles.majorText}>전자공학과</Text>
+          <Text style={styles.nameText}>박시우</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.editButton}>
-        <Text style={styles.editButtonText}>프로필 수정</Text>
-      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
-  },
-  profile: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 16,
+    paddingVertical: 24,
+    paddingHorizontal: 20,
+    backgroundColor: "#fff",
+    borderBottomWidth: 8,
+    borderBottomColor: "#F5F5F5",
+  },
+  avatarContainer: {
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+    backgroundColor: "#E6E0FF",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 24,
   },
   avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginRight: 16,
+    width: 50,
+    height: 50,
   },
-  info: {
+  infoContainer: {
     flex: 1,
   },
-  name: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 4,
-  },
-  email: {
-    fontSize: 14,
-    color: "#666",
-  },
-  editButton: {
-    backgroundColor: "#f0f0f0",
-    padding: 12,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  editButtonText: {
-    fontSize: 16,
+  universityText: {
+    fontSize: 15,
     color: "#333",
+  },
+  collegeText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#000",
+    marginVertical: 2,
+  },
+  nameContainer: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    marginTop: 2,
+  },
+  majorText: {
+    fontSize: 15,
+    color: "#333",
+    marginRight: 8,
+  },
+  nameText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#000",
   },
 });
