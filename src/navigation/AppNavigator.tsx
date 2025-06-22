@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { Image } from "react-native";
+import { TAB_BAR_STYLE } from "../constants/tabs";
 import { CalendarScreen } from "../screens/Calendar/CalendarScreen";
 import { HomeScreen } from "../screens/Home/HomeScreen";
 import { RoomListScreen } from "../screens/Room/RoomListScreen";
@@ -36,13 +37,7 @@ export const AppNavigator = () => {
         lazy: true,
         tabBarActiveTintColor: "#007AFF",
         tabBarInactiveTintColor: "#8E8E93",
-        tabBarStyle: {
-          height: 80,
-          paddingBottom: 15,
-          paddingTop: 10,
-          borderTopWidth: 1,
-          borderTopColor: "#E5E5E5",
-        },
+        tabBarStyle: TAB_BAR_STYLE,
         tabBarLabelStyle: {
           fontSize: 12,
           marginBottom: 5,
