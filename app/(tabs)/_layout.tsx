@@ -2,6 +2,8 @@ import { Tabs } from "expo-router";
 import React from "react";
 import { Image } from "react-native";
 import { CustomTabIcon } from "../../src/components/CustomTabIcon";
+import { Header } from "../../src/components/Header";
+import { TAB_BAR_STYLE } from "../../src/constants/tabs";
 
 const TAB_CONFIG = [
   { name: "index", label: "Home", iconKey: "home" },
@@ -24,6 +26,8 @@ export default function TabLayout() {
       name={tab.name}
       options={{
         title: tab.label,
+        headerShown: tab.name === "settings",
+        header: tab.name === "settings" ? () => <Header /> : undefined,
         tabBarIcon: ({ color, size, focused }) => (
           <CustomTabIcon
             name={tab.iconKey}
@@ -54,22 +58,7 @@ export default function TabLayout() {
         tabBarActiveTintColor: "#5C39F5",
         tabBarInactiveTintColor: "#8E8E93",
         headerShown: false,
-        tabBarStyle: {
-          height: 85,
-          paddingBottom: 15,
-          paddingTop: 10,
-          borderTopWidth: 1,
-          borderTopColor: "#E5E5E5",
-          backgroundColor: "#FFFFFF",
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: -2,
-          },
-          shadowOpacity: 0.1,
-          shadowRadius: 3,
-          elevation: 10,
-        },
+        tabBarStyle: TAB_BAR_STYLE,
         tabBarLabelStyle: {
           fontSize: 12,
           marginBottom: 5,
