@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   primaryButton: {
-    backgroundColor: "#0A84FF",
+    backgroundColor: "#5C39F5",
   },
   secondaryButton: {
     backgroundColor: "#E5E5EA",
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   outlineButton: {
     backgroundColor: "transparent",
     borderWidth: 1,
-    borderColor: "#0A84FF",
+    borderColor: "#5C39F5",
   },
   smallButton: {
     height: 32,
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   outlineText: {
-    color: "#0A84FF",
+    color: "#5C39F5",
   },
   smallText: {
     fontSize: 14,
