@@ -1,4 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { useProjects } from "../../context/ProjectContext";
 import { ArrowLeft, Menu, Plus, Send, Users } from "lucide-react-native";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -18,50 +19,6 @@ import {
 import { ChatMessage as ChatMessageType } from "../../types/chat";
 import { RequestMessageModal } from "./modals/RequestMessageModal";
 import { CustomSidebar } from "./RoomSidebar";
-
-// 프로젝트 데이터 (채팅방 정보로 사용)
-const projects = [
-  {
-    id: "1",
-    category: "웹개발",
-    title: "웹개발 프로젝트",
-    members: 8,
-    description: "React + Node.js 쇼핑몰 개발",
-    color: "#3B82F6",
-  },
-  {
-    id: "2",
-    category: "모바일",
-    title: "모바일 앱 기획",
-    members: 5,
-    description: "Flutter 기반 배달앱 기획",
-    color: "#FACC15",
-  },
-  {
-    id: "3",
-    category: "세계와 시민",
-    title: "세계와 시민",
-    members: 4,
-    description: "장애인 이동권",
-    color: "#22C55E",
-  },
-  {
-    id: "4",
-    category: "AI/ML",
-    title: "AI 프로젝트",
-    members: 6,
-    description: "머신러닝 모델 개발",
-    color: "#8B5CF6",
-  },
-  {
-    id: "5",
-    category: "게임",
-    title: "게임 개발팀",
-    members: 7,
-    description: "Unity 3D 게임 개발",
-    color: "#EC4899",
-  },
-];
 
 const sampleMessages: ChatMessageType[] = [
   {
@@ -102,6 +59,7 @@ const sampleMessages: ChatMessageType[] = [
 export const RoomScreen = () => {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  const { projects } = useProjects();
   const flatListRef = useRef<FlatList>(null);
   const [messages, setMessages] = useState<any[]>(sampleMessages);
   const [newMessage, setNewMessage] = useState("");
@@ -110,7 +68,7 @@ export const RoomScreen = () => {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [activeMenu, setActiveMenu] = useState("chat");
 
-  // ID에 해당하는 프로젝트 찾기
+  // ID에 해당하는 프로젝트 찾기 (context에서)
   const chatRoom = projects.find((p) => p.id === id);
 
   // 임시 멤버 데이터 (실제 데이터로 교체 가능)
@@ -292,13 +250,13 @@ export const RoomScreen = () => {
             const aTime = a.timestamp
               ? new Date(a.timestamp).getTime()
               : a.sentAt
-              ? new Date(a.sentAt).getTime()
-              : new Date(0).getTime();
+                ? new Date(a.sentAt).getTime()
+                : new Date(0).getTime();
             const bTime = b.timestamp
               ? new Date(b.timestamp).getTime()
               : b.sentAt
-              ? new Date(b.sentAt).getTime()
-              : new Date(0).getTime();
+                ? new Date(b.sentAt).getTime()
+                : new Date(0).getTime();
             return aTime - bTime;
           })}
           keyExtractor={(item) =>
