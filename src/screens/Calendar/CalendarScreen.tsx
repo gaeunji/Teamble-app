@@ -1,15 +1,15 @@
-import React, { useState, useMemo } from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  SectionList,
-  TouchableOpacity,
-} from "react-native";
 import { format, parseISO } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useRouter } from "expo-router";
+import React, { useMemo, useState } from "react";
+import {
+  SafeAreaView,
+  SectionList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import { Header } from "../../components/Header";
 import { CalendarView } from "./components/CalendarView";
@@ -32,7 +32,7 @@ export const CalendarScreen = () => {
       id: "1",
       teamName: "[웹 개발 프로젝트]",
       content: "회의",
-      date: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-10`,
+      date: `${currentYear}-${currentMonth.toString().padStart(2, "0")}-10`,
       time: "13:00",
       color: "#FFF1A3",
       notification: "10분 전",
@@ -42,7 +42,7 @@ export const CalendarScreen = () => {
       id: "2",
       teamName: "[앱 개발 프로젝트]",
       content: "자료조사 완료",
-      date: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-27`,
+      date: `${currentYear}-${currentMonth.toString().padStart(2, "0")}-27`,
       time: "14:00",
       color: "#ADE0FF",
       notification: "30분 전",
@@ -52,17 +52,24 @@ export const CalendarScreen = () => {
       id: "3",
       teamName: "팀 전체",
       content: "회의",
-      date: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-21`,
+      date: `${currentYear}-${currentMonth.toString().padStart(2, "0")}-21`,
       time: "10:00",
       color: "#ADE0FF",
       notification: "1시간 전",
-      participants: ["김도윤", "윤하은", "이재훈", "정민석", "백예린", "박시우"],
+      participants: [
+        "김도윤",
+        "윤하은",
+        "이재훈",
+        "정민석",
+        "백예린",
+        "박시우",
+      ],
     },
     {
       id: "4",
       teamName: "[웹 개발 프로젝트]",
       content: "자료조사",
-      date: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-10`,
+      date: `${currentYear}-${currentMonth.toString().padStart(2, "0")}-10`,
       time: "13:00",
       color: "#FFF1A3",
       notification: "10분 전",
@@ -72,7 +79,7 @@ export const CalendarScreen = () => {
       id: "5",
       teamName: "",
       content: "기획회의",
-      date: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-16`,
+      date: `${currentYear}-${currentMonth.toString().padStart(2, "0")}-16`,
       time: "11:00",
       color: "#FFF1A3",
       notification: "10분 전",
@@ -82,7 +89,7 @@ export const CalendarScreen = () => {
       id: "6",
       teamName: "[서버]",
       content: "API 명세 회의",
-      date: `${currentYear}-${currentMonth.toString().padStart(2, '0')}-20`,
+      date: `${currentYear}-${currentMonth.toString().padStart(2, "0")}-20`,
       time: "15:00",
       color: "#ADE0FF",
       notification: "30분 전",
@@ -90,9 +97,7 @@ export const CalendarScreen = () => {
     },
   ];
 
-  const [selectedDate, setSelectedDate] = useState(
-    format(today, "yyyy-MM-dd")
-  );
+  const [selectedDate, setSelectedDate] = useState(format(today, "yyyy-MM-dd"));
 
   const handleDayPress = (date) => {
     setSelectedDate(date);
@@ -168,7 +173,7 @@ export const CalendarScreen = () => {
     router.push({
       pathname: "/schedule-detail",
       params: {
-        teamName: item.teamName,
+        teamName: item.teamName || "",
         content: item.content,
         date: formatDate(item.date),
         time: item.time,
@@ -194,7 +199,8 @@ export const CalendarScreen = () => {
               />
               <View style={styles.content}>
                 <Text style={styles.title}>
-                  {item.teamName ? `${item.teamName} ` : ""}{item.content}
+                  {item.teamName ? `${item.teamName} ` : ""}
+                  {item.content}
                 </Text>
                 <Text style={styles.timeText}>{item.time}</Text>
               </View>
@@ -209,9 +215,7 @@ export const CalendarScreen = () => {
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>등록된 일정이 없습니다.</Text>
-            <Text style={styles.emptySubText}>
-              새로운 일정을 추가해보세요!
-            </Text>
+            <Text style={styles.emptySubText}>새로운 일정을 추가해보세요!</Text>
           </View>
         }
         ItemSeparatorComponent={() => <View style={styles.separator} />}

@@ -1,8 +1,18 @@
 import { User } from "lucide-react-native";
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Header } from "../../components/Header";
 import { ProjectCard } from "../../components/ProjectCard";
+import { Button } from "../../components/ui/Button";
+import { Input } from "../../components/ui/Input";
+import { useProjects } from "../../context/ProjectContext";
 
 type Project = {
   id: string;
@@ -52,6 +62,38 @@ const recentProjects: Project[] = [
 ];
 
 export const HomeScreen = () => {
+  const { projects, addProject } = useProjects();
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [form, setForm] = React.useState({
+    title: "",
+    members: "",
+    description: "",
+  });
+  const [error, setError] = React.useState("");
+
+  const handleCreateProject = () => {
+    if (!form.title || !form.members || !form.description) {
+      setError("모든 항목을 입력하세요.");
+      return;
+    }
+    addProject({
+      id: Date.now().toString(),
+      category: form.title,
+      title: form.title,
+      members: Number(form.members),
+      description: form.description,
+      color: "#5C39F5",
+      message: "새로 생성된 프로젝트입니다!",
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    });
+    setForm({ title: "", members: "", description: "" });
+    setError("");
+    setModalVisible(false);
+  };
+
   return (
     <>
       <Header />
@@ -89,15 +131,71 @@ export const HomeScreen = () => {
           </View>
         </View>
 
-        {/* Recent Projects */}
+        {/* 최근 방문한 프로젝트 + 프로젝트 생성 버튼 */}
         <View style={styles.projects}>
-          <Text style={styles.sectionTitle}>최근 방문한 프로젝트</Text>
-
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 16,
+            }}
+          >
+            <Text style={styles.sectionTitle}>최근 방문한 프로젝트</Text>
+            <Button
+              title="프로젝트 생성"
+              size="small"
+              onPress={() => setModalVisible(true)}
+            />
+          </View>
           {recentProjects.map((proj) => (
             <ProjectCard key={proj.id} project={proj} />
           ))}
         </View>
       </ScrollView>
+
+      {/* 프로젝트 생성 모달 */}
+      <Modal visible={modalVisible} animationType="slide" transparent>
+        <View style={modalStyles.overlay}>
+          <View style={modalStyles.modal}>
+            <Text style={modalStyles.modalTitle}>프로젝트 생성</Text>
+            <Input
+              label="프로젝트명"
+              value={form.title}
+              onChangeText={(v) => setForm((f) => ({ ...f, title: v }))}
+            />
+            <Input
+              label="인원수"
+              value={form.members}
+              onChangeText={(v) =>
+                setForm((f) => ({ ...f, members: v.replace(/[^0-9]/g, "") }))
+              }
+              keyboardType="numeric"
+            />
+            <Input
+              label="설명"
+              value={form.description}
+              onChangeText={(v) => setForm((f) => ({ ...f, description: v }))}
+            />
+            {error ? (
+              <Text style={{ color: "#FF3B30", marginBottom: 8 }}>{error}</Text>
+            ) : null}
+            <Button
+              title="생성하기"
+              onPress={handleCreateProject}
+              size="large"
+            />
+            <TouchableOpacity
+              onPress={() => setModalVisible(false)}
+              style={{ marginTop: 12 }}
+            >
+              <Text style={{ color: "#5C39F5", textAlign: "center" }}>
+                닫기
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -142,4 +240,30 @@ const styles = StyleSheet.create({
   /* Recent Projects */
   projects: { marginBottom: 24, marginTop: 30 },
   sectionTitle: { fontSize: 16, fontWeight: "700", marginBottom: 16 },
+});
+
+const modalStyles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.3)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modal: {
+    width: "90%",
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 24,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 16,
+    elevation: 4,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#5C39F5",
+    marginBottom: 16,
+    textAlign: "center",
+  },
 });
