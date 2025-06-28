@@ -7,13 +7,13 @@ import { useFonts } from "expo-font";
 import { Stack, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { useColorScheme } from "react-native";
+import { Text, useColorScheme, View } from "react-native";
 import "react-native-reanimated";
 import { AuthProvider, useAuth } from "../src/context/AuthContext";
 import { ProjectProvider } from "../src/context/ProjectContext";
 
 function AuthGate({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const segments = useSegments();
   const [isNavigating, setIsNavigating] = React.useState(false);
@@ -33,6 +33,17 @@ function AuthGate({ children }: { children: React.ReactNode }) {
   }, [router, isNavigating]);
 
   React.useEffect(() => {
+    console.log("🔍 AuthGate: Effect triggered", {
+      isAuthenticated,
+      isLoading,
+      segments: segments[0],
+    });
+
+    if (isLoading) {
+      console.log("⏳ AuthGate: Still loading...");
+      return;
+    }
+
     const inAuthGroup =
       segments[0] === "(tabs)" ||
       segments[0] === "room" ||
@@ -40,6 +51,7 @@ function AuthGate({ children }: { children: React.ReactNode }) {
 
     console.log("🔍 AuthGate Debug:", {
       isAuthenticated,
+      isLoading,
       currentSegment: segments[0],
       inAuthGroup,
       isNavigating,
@@ -51,9 +63,15 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     } else if (!isAuthenticated && inAuthGroup && !isNavigating) {
       // 인증 안 된 경우, 항상 랜딩/로그인/회원가입만 접근 가능
       navigateToLanding();
+    } else if (!isAuthenticated && !inAuthGroup && !isNavigating) {
+      // 인증 안 되고 랜딩 페이지에 있지 않은 경우
+      console.log("🏠 AuthGate: User not authenticated, staying on landing");
+    } else {
+      console.log("⏸️ AuthGate: No navigation needed");
     }
   }, [
     isAuthenticated,
+    isLoading,
     segments,
     navigateToTabs,
     navigateToLanding,
@@ -67,6 +85,23 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     }, 1000);
     return () => clearTimeout(timer);
   }, [isNavigating]);
+
+  // 로딩 중일 때는 로딩 화면 표시
+  if (isLoading) {
+    console.log("⏳ AuthGate: Showing loading screen");
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#fff",
+        }}
+      >
+        <Text style={{ fontSize: 16, color: "#5C39F5" }}>Loading...</Text>
+      </View>
+    );
+  }
 
   return <>{children}</>;
 }
