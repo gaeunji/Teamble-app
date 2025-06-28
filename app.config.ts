@@ -2,12 +2,12 @@ import { ConfigContext, ExpoConfig } from "expo/config";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: process.env.EXPO_PUBLIC_APP_NAME || "Teamble",
-  slug: "teamble",
-  version: process.env.EXPO_PUBLIC_APP_VERSION || "1.0.0",
+  name: "TeambleApp",
+  slug: "TeambleApp",
+  version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/images/icon.png",
-  userInterfaceStyle: "light",
+  userInterfaceStyle: "automatic",
   splash: {
     image: "./assets/images/splash-icon.png",
     resizeMode: "contain",
@@ -26,13 +26,35 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     package: "com.teamble.app",
   },
   web: {
+    bundler: "metro",
+    output: "static",
     favicon: "./assets/images/favicon.png",
   },
+  plugins: [
+    "expo-router",
+    [
+      "expo-splash-screen",
+      {
+        image: "./assets/images/splash-icon.png",
+        imageWidth: 200,
+        resizeMode: "contain",
+        backgroundColor: "#ffffff",
+      },
+    ],
+  ],
+  experiments: {
+    typedRoutes: true,
+  },
   extra: {
-    apiUrl: process.env.EXPO_PUBLIC_API_URL,
+    router: {
+      origin: false,
+    },
     eas: {
       projectId: "your-project-id",
     },
+    apiUrl: process.env.EXPO_PUBLIC_API_URL,
   },
-  plugins: ["expo-router"],
+  developmentClient: {
+    silentLaunch: false,
+  },
 });

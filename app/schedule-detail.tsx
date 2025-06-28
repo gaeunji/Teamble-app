@@ -1,13 +1,13 @@
+import { Feather } from "@expo/vector-icons";
 import { Stack, useLocalSearchParams } from "expo-router";
 import React from "react";
 import {
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  View,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
 
 const InfoRow = ({ label, value }) => (
   <View style={styles.infoRow}>
@@ -20,7 +20,18 @@ export default function ScheduleDetailScreen() {
   const { teamName, content, date, time, notification, participants } =
     useLocalSearchParams();
 
-  const participantList = JSON.parse(participants as string);
+  console.log("📋 Schedule Detail Screen - Received params:", {
+    teamName,
+    content,
+    date,
+    time,
+    notification,
+    participants,
+  });
+
+  const participantList = participants
+    ? JSON.parse(participants as string)
+    : [];
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -31,7 +42,7 @@ export default function ScheduleDetailScreen() {
       />
       <View style={styles.container}>
         <View style={styles.content}>
-          <InfoRow label="팀플명" value={teamName} />
+          <InfoRow label="팀플명" value={teamName || "전체"} />
           <InfoRow label="날짜" value={date} />
           <InfoRow label="시간" value={time} />
           <InfoRow label="내용" value={content} />
@@ -162,4 +173,4 @@ const styles = StyleSheet.create({
   secondaryButtonText: {
     color: "#555",
   },
-}); 
+});

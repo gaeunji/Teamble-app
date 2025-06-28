@@ -5,10 +5,16 @@ import { CustomTabIcon } from "../../src/components/CustomTabIcon";
 import { Header } from "../../src/components/Header";
 import { TAB_BAR_STYLE } from "../../src/constants/tabs";
 
-const TAB_CONFIG = [
+interface TabConfig {
+  name: string;
+  label: string;
+  iconKey: keyof typeof ICONS;
+}
+
+const TAB_CONFIG: TabConfig[] = [
   { name: "index", label: "Home", iconKey: "home" },
   { name: "room", label: "Room", iconKey: "room" },
-  { name: "calendar", label: "Calender", iconKey: "calender" },
+  { name: "calendar", label: "Calendar", iconKey: "calender" },
   { name: "settings", label: "Settings", iconKey: "settings" },
 ];
 
@@ -17,39 +23,42 @@ const ICONS = {
   room: require("../../assets/icons/room.png"),
   calender: require("../../assets/icons/calender.png"),
   settings: require("../../assets/icons/settings.png"),
-};
+} as const;
 
 export default function TabLayout() {
-  const renderTabScreen = (tab) => (
-    <Tabs.Screen
-      key={tab.name}
-      name={tab.name}
-      options={{
-        title: tab.label,
-        headerShown: tab.name === "settings",
-        header: tab.name === "settings" ? () => <Header /> : undefined,
-        tabBarIcon: ({ color, size, focused }) => (
-          <CustomTabIcon
-            name={tab.iconKey}
-            focused={focused}
-            color={color}
-            size={size}
-            customIcon={
-              <Image
-                source={ICONS[tab.iconKey]}
-                style={{
-                  width: size,
-                  height: size,
-                  tintColor: color,
-                  opacity: focused ? 1 : 0.6,
-                }}
-                resizeMode="contain"
-              />
-            }
-          />
-        ),
-      }}
-    />
+  const renderTabScreen = React.useCallback(
+    (tab: TabConfig) => (
+      <Tabs.Screen
+        key={tab.name}
+        name={tab.name}
+        options={{
+          title: tab.label,
+          headerShown: tab.name === "settings",
+          header: tab.name === "settings" ? () => <Header /> : undefined,
+          tabBarIcon: ({ color, size, focused }) => (
+            <CustomTabIcon
+              name={tab.iconKey}
+              focused={focused}
+              color={color}
+              size={size}
+              customIcon={
+                <Image
+                  source={ICONS[tab.iconKey]}
+                  style={{
+                    width: size,
+                    height: size,
+                    tintColor: color,
+                    opacity: focused ? 1 : 0.6,
+                  }}
+                  resizeMode="contain"
+                />
+              }
+            />
+          ),
+        }}
+      />
+    ),
+    []
   );
 
   return (
